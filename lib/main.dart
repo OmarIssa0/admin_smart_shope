@@ -1,4 +1,5 @@
 import 'package:admin_shope/core/utils/theme_data.dart';
+import 'package:admin_shope/features/add_product/peresntation/view/add_product_view.dart';
 import 'package:admin_shope/features/home/peresntation/view/home_view.dart';
 import 'package:admin_shope/features/search/presentation/manger/provider/product_provider.dart';
 import 'package:admin_shope/features/search/presentation/view/search_view.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
               initialRoute: HomeView.kHome,
               routes: {
                 HomeView.kHome: (context) => const HomeView(),
+                AddProductView.kAddProduct: (context) => const AddProductView(),
                 SearchView.kSearch: (context) => const SearchView(),
               },
             ),

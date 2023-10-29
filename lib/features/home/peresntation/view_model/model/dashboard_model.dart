@@ -1,3 +1,4 @@
+import 'package:admin_shope/features/add_product/peresntation/view/add_product_view.dart';
 import 'package:admin_shope/features/search/presentation/view/search_view.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,9 @@ class DashboardBottomModel {
         DashboardBottomModel(
           text: "Add a new product",
           lottiePath: 'assets/lottie/add.json',
-          function: () {},
+          function: () {
+            Navigator.of(context).pushNamed(AddProductView.kAddProduct);
+          },
         ),
         DashboardBottomModel(
           text: "inspect all product",

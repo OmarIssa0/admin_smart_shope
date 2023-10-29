@@ -1,4 +1,4 @@
-import 'package:admin_shope/features/upload_product/peresntation/view_model/model/product_model.dart';
+import 'package:admin_shope/features/add_product/peresntation/view_model/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
