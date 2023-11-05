@@ -21,7 +21,7 @@ class AlertDialogMethods {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              LottieBuilder.asset(
+              Lottie.asset(
                 lottileAnimation,
                 height: 150,
                 fit: BoxFit.fill,
@@ -73,6 +73,75 @@ class AlertDialogMethods {
     );
   }
 
+  static Future<void> showError({
+    required BuildContext context,
+    required String titleBottom,
+    String? subtitle,
+    required String lottileAnimation,
+    required Function function,
+    bool isError = true,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey.shade900.withOpacity(.75),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                lottileAnimation,
+                height: 150,
+                fit: BoxFit.fill,
+              ),
+              TitleTextAppCustom(
+                label: subtitle ?? '',
+                fontSize: 18.sp,
+                color: Colors.white,
+                maxLine: 7,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        function();
+                        // Navigator.of(context).pop();
+                      },
+                      child: TitleTextAppCustom(
+                        label: titleBottom,
+                        fontSize: 16.sp,
+                        color: const Color(0xffFE3A30),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Visibility(
+                      visible: !isError,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: TitleTextAppCustom(
+                          label: 'Cancel',
+                          fontSize: 16.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   // static Future<void> showDialogForgotPassword({
   //   required BuildContext context,
   //   required String titleBottom,
@@ -91,7 +160,7 @@ class AlertDialogMethods {
   //           children: [
   //             Padding(
   //               padding: const EdgeInsets.all(8.0),
-  //               child: LottieBuilder.asset(
+  //               child: Lottie.asset(
   //                 lottileAnimation,
   //               ),
   //             ),
