@@ -249,31 +249,40 @@ class _AddProductViewState extends State<AddProductView> {
                       ),
                     ),
                   ] else if (pickImage == null) ...[
-                    SizedBox(
-                      width: size.width * 0.4 + 10,
-                      height: size.width * 0.4,
-                      child: DottedBorder(
-                          color: Colors.blue,
-                          radius: const Radius.circular(12),
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.image_outlined,
-                                  size: 80,
-                                  color: Colors.blue,
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    localImagePicker();
-                                  },
-                                  child: const Text("Pick Product image"),
-                                ),
-                              ],
-                            ),
-                          )),
+                    GestureDetector(
+                      onTap: () {
+                        localImagePicker();
+                      },
+                      child: SizedBox(
+                        width: size.width * 0.4 + 10,
+                        height: size.width * 0.4,
+                        child: DottedBorder(
+                            color: Colors.blue,
+                            radius: const Radius.circular(12),
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.image_outlined,
+                                    size: 80,
+                                    color: Colors.blue,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      localImagePicker();
+                                    },
+                                    child: Text(
+                                      "Pick Product image",
+                                      style: TextStyle(
+                                          color: Colors.blue.shade800),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
                     ),
                   ] else ...[
                     ClipRRect(
@@ -288,14 +297,16 @@ class _AddProductViewState extends State<AddProductView> {
                       ),
                     ),
                   ],
-                  if (pickImage != null && productNetworkImage != null) ...[
+                  if (pickImage != null || productNetworkImage != null) ...[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
                           onPressed: () {
                             localImagePicker();
                           },
-                          child: const Text("Pick another image"),
+                          child: Text("Pick another image",
+                              style: TextStyle(color: Colors.grey.shade600)),
                         ),
                         TextButton(
                           onPressed: () {

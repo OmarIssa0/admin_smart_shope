@@ -150,7 +150,7 @@ class AlertDialogMethods {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.grey.shade900.withOpacity(.75),
           title: Center(
             child: TitleTextAppCustom(
               label: 'Choose option',
@@ -170,8 +170,16 @@ class AlertDialogMethods {
                     Navigator.of(context).pop();
                   }
                 },
-                icon: const Icon(IconlyLight.camera),
-                label: const Text("Camera"),
+                icon: const Icon(
+                  IconlyLight.camera,
+                  color: Colors.grey,
+                ),
+                label: const Text(
+                  "Camera",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
               TextButton.icon(
                 onPressed: () {
@@ -180,8 +188,16 @@ class AlertDialogMethods {
                     Navigator.of(context).pop();
                   }
                 },
-                icon: const Icon(IconlyLight.image),
-                label: const Text("Gallery"),
+                icon: const Icon(
+                  IconlyLight.image,
+                  color: Colors.grey,
+                ),
+                label: const Text(
+                  "Gallery",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
               TextButton.icon(
                 onPressed: () {
@@ -190,8 +206,16 @@ class AlertDialogMethods {
                     Navigator.of(context).pop();
                   }
                 },
-                icon: const Icon(IconlyLight.delete),
-                label: const Text("Remove"),
+                icon: const Icon(
+                  IconlyLight.delete,
+                  color: Colors.grey,
+                ),
+                label: const Text(
+                  "Remove",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ]),
           ),
