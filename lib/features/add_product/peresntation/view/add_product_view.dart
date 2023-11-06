@@ -81,6 +81,7 @@ class _AddProductViewState extends State<AddProductView> {
     _descriptionController.clear();
     _priceController.clear();
     _quantityController.clear();
+    removePikerImage();
   }
 
   void removePikerImage() {
@@ -91,29 +92,6 @@ class _AddProductViewState extends State<AddProductView> {
   }
 
   Future<void> _uploadProduct() async {
-    // if (_categoryValue == null) {
-    //   AlertDialogMethods.showDialogWaring(
-    //     context: context,
-    //     titleBottom: "Ok",
-    //     subtitle: "Category is empty",
-    //     lottileAnimation: "assets/lottie/error.json",
-    //     function: () {
-    //       Navigator.of(context).pop();
-    //     },
-    //   );
-    //   return;
-    // }
-    // if (pickImage == null) {
-    //   AlertDialogMethods.showDialogWaring(
-    //     context: context,
-    //     titleBottom: "Ok",
-    //     lottileAnimation: "assets/lottie/error.json",
-    //     function: () {},
-    //   );
-    // }
-    // final isValid = _formKey.currentState!.validate();
-    // FocusScope.of(context).unfocus();
-    // if (isValid) {}
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (_categoryValue == null) {
@@ -130,7 +108,6 @@ class _AddProductViewState extends State<AddProductView> {
     }
     if (isValid) {
       _formKey.currentState!.save();
-      // Navigator.of(context).push(AnimationNav.createRouteHomeView());
       try {
         setState(() {
           _isLoading = true;
@@ -145,19 +122,18 @@ class _AddProductViewState extends State<AddProductView> {
         productImageUrl = await ref.getDownloadURL();
 
         final productID = const Uuid().v4();
-
         await FirebaseFirestore.instance
             .collection("products")
             .doc(productID)
             .set({
-          "userId": productID,
-          "userTitle": _titleController.text,
-          "userPrice": _priceController.text,
-          "userImage": productImageUrl,
-          "userCategory": _categoryValue,
-          "userDescription": _descriptionController.text,
-          "userQuantity": _quantityController.text,
-          "createdAt": Timestamp.now(),
+          'productId': productID,
+          'productTitle': _titleController.text,
+          'productPrice': _priceController.text,
+          'productImage': productImageUrl,
+          'productCategory': _categoryValue,
+          'productDescription': _descriptionController.text,
+          'productQuantity': _quantityController.text,
+          'createdAt': Timestamp.now(),
         });
         Fluttertoast.showToast(
           msg: "Product has been added",
