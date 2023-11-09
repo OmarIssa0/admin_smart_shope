@@ -187,13 +187,102 @@ class _AddProductViewState extends State<AddProductView> {
     if (pickImage == null && productNetworkImage == null) {
       AlertDialogMethods.showDialogWaring(
         context: context,
+        subtitle: "Please pick up an image",
         titleBottom: "Ok",
         lottileAnimation: "assets/lottie/error.json",
-        function: () {},
+        function: () {
+          Navigator.pop(context);
+        },
       );
       return;
     }
-    if (isValid) {}
+    if (_categoryValue == null) {
+      AlertDialogMethods.showDialogWaring(
+        context: context,
+        subtitle: "Category is empty",
+        titleBottom: "Ok",
+        lottileAnimation: "assets/lottie/error.json",
+        function: () {
+          Navigator.pop(context);
+        },
+      );
+      return;
+    }
+    if (isValid) {
+      _formKey.currentState!.save();
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+
+        final productID = const Uuid().v4();
+        if (pickImage != null) {
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child("productsImages")
+              .child("$productID.jpg");
+
+          await ref.putFile(File(pickImage!.path));
+          productImageUrl = await ref.getDownloadURL();
+        }
+
+        await FirebaseFirestore.instance
+            .collection("products")
+            .doc(widget.productModel!.productId)
+            .update({
+          'productId': widget.productModel!.productId,
+          'productTitle': _titleController.text,
+          'productPrice': _priceController.text,
+          'productImage': productImageUrl ?? productNetworkImage,
+          'productCategory': _categoryValue,
+          'productDescription': _descriptionController.text,
+          'productQuantity': _quantityController.text,
+          'createdAt': widget.productModel!.createdAt,
+        });
+        Fluttertoast.showToast(
+          msg: "Product has been edited",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+        );
+        if (!mounted) return;
+        await AlertDialogMethods.showDialogWaring(
+          isError: false,
+          context: context,
+          subtitle: "Clear form?",
+          titleBottom: "Ok",
+          lottileAnimation: MangerImage.kQuestion,
+          // lottileAnimation: MangerImage.kError,
+          function: () {
+            clearForm();
+            Navigator.of(context).pop();
+          },
+        );
+      } on FirebaseException catch (error) {
+        AlertDialogMethods.showError(
+          context: context,
+          subtitle: "An error has been occured${error.message}.",
+          titleBottom: "Ok",
+          lottileAnimation: MangerImage.kError,
+          function: () {
+            // Navigator.of(context).pop
+          },
+        );
+      } catch (error) {
+        AlertDialogMethods.showError(
+          context: context,
+          subtitle: "An error has been occured $error",
+          titleBottom: "Ok",
+          lottileAnimation: MangerImage.kError,
+          function: () {
+            Navigator.of(context).pop();
+          },
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> localImagePicker() async {
@@ -202,11 +291,15 @@ class _AddProductViewState extends State<AddProductView> {
       context: context,
       cameraFunction: () async {
         pickImage = await picker.pickImage(source: ImageSource.camera);
-        setState(() {});
+        setState(() {
+          productImageUrl = null;
+        });
       },
       galleryFunction: () async {
         pickImage = await picker.pickImage(source: ImageSource.gallery);
-        setState(() {});
+        setState(() {
+          productImageUrl = null;
+        });
       },
       removeFunction: () {
         setState(() {

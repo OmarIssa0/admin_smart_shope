@@ -45,14 +45,25 @@ class _SearchViewBodyState extends State<SearchViewBody> {
     // Ui
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: productList.isEmpty
-          ? Center(
-              child: TitleTextAppCustom(
-                label: 'No product found',
-                fontSize: 20.sp,
-              ),
-            )
-          : Column(
+      child: StreamBuilder<List<ProductModel>>(
+          stream: productProvider.fetchProductStream(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: TitleTextAppCustom(
+                    label: snapshot.error.toString(), fontSize: 15),
+              );
+            } else if (snapshot.data == null) {
+              return const Center(
+                child: TitleTextAppCustom(
+                    label: "No product has been added", fontSize: 15),
+              );
+            }
+            return Column(
               children: [
                 SizedBox(
                   height: 15.h,
@@ -122,7 +133,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                   ),
                 ),
               ],
-            ),
+            );
+          }),
     );
   }
 }

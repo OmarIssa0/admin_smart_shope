@@ -1,3 +1,5 @@
+import 'package:admin_shope/features/all_order/presentation/view/all_order_view.dart';
+import 'package:admin_shope/features/all_order/presentation/view_model/provider/order_provider.dart';
 import 'package:admin_shope/core/utils/theme_data.dart';
 import 'package:admin_shope/core/utils/widgets/title_text.dart';
 import 'package:admin_shope/features/add_product/peresntation/view/add_product_view.dart';
@@ -47,6 +49,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(
               create: (_) => ProductProvider(),
             ),
+            ChangeNotifierProvider(
+              create: (_) => OrderProvider(),
+            ),
           ],
           child: ScreenUtilInit(
             designSize: const Size(375, 812),
@@ -66,6 +71,7 @@ class MyApp extends StatelessWidget {
                     AddProductView.kAddProduct: (context) =>
                         const AddProductView(),
                     SearchView.kSearch: (context) => const SearchView(),
+                    AllOrderView.kAllOrder: (context) => const AllOrderView(),
                   },
                 ),
               );
